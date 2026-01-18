@@ -11,10 +11,13 @@ const Header = ({title}) => {
 
 
 const styles = StyleSheet.create({
+
   header: {
     height: 60,
     padding: 15,
+    paddingBottom: 15,
     backgroundColor: 'darkslateblue',
+    justifyContent: 'center',
   },
 
   text: {

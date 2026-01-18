@@ -1,22 +1,21 @@
-import { Text, View, StyleSheet, TextInput, TouchableOpacity } from "react-native";
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Text, View, StyleSheet, TextInput, TouchableOpacity} from "react-native";
 import React, { useState } from "react";
-import { useSettings } from "../context/SettingsContext"; 
+import Icon from "react-native-vector-icons/FontAwesome";
+import { useSettings } from "../context/SettingsContext";
 
-const AddItem = ({ addItem }) => {
-    
+const AddNoteItem = ( { addNote }) => {
+
     const [text, setText] = useState('');
-    const { isDarkMode, isGerman } = useSettings();
 
     const onChange = (textValue) => setText(textValue);
-
-    const textColor = isDarkMode ? 'white' : 'dark';
+    const { isDarkMode, isGerman } = useSettings();
+    const textColor = isDarkMode ? 'white':'dark';
     const placeholderColor = isDarkMode ? '#888':'#666';
 
-  return (
-    <View>
+    return(
+        <View>
         <TextInput
-        placeholder={isGerman ? "Artikel hinzufügen..." : "Add Item.."}
+        placeholder={isGerman ? "Hinzufügen Noten.." : "Add Note..."}
         placeholderTextColor={placeholderColor}
         style={[styles.input, {color: textColor}]}
         onChangeText={onChange}
@@ -24,7 +23,8 @@ const AddItem = ({ addItem }) => {
         />
         <TouchableOpacity
         style={styles.btn}
-        onPress={() => addItem(text)}
+        onPress={() => addNote(text)}
+        testID="add-note-button"
         >
         <Text
         style={styles.btnText}
@@ -33,11 +33,12 @@ const AddItem = ({ addItem }) => {
         name="plus"
         size={20}
         />
-        {'  '}{isGerman ? "Hinzufügen" : "Add Item"}
+        {''}{isGerman ? 'Hinzufügen' : 'Add Note'}    
         </Text>
         </TouchableOpacity>
-    </View>
-  );
+        </View>
+    );
+    
 };
 
 
@@ -63,4 +64,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default AddItem;
+export default AddNoteItem;
