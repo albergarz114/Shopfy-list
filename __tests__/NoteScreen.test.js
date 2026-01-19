@@ -81,6 +81,7 @@ describe('NoteScreen UI', () => {
         expect(queryByText('Wash the dishes')).toBeNull();
     });
 
+    
     it('shows an alert when trying to add an empty note', () => {
         const alertSpy = jest.spyOn(Alert, 'alert');
 

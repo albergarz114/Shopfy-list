@@ -5,7 +5,7 @@ import AddBeerItem from '../../components/AddBeerItem';
 import ListBeerItem from '../../components/ListBeerItem';
 import GlobalToolbar from "@/components/GlobalToolbar";
 import { useSettings } from '@/context/SettingsContext';
-
+import { addBeerLogic, deleteBeerLogic } from '../../utils/beerLogic';
 const BeerScreen = () => {
 
     const router = useRouter();
@@ -22,20 +22,24 @@ const BeerScreen = () => {
 
 
     const addBeer = (text) => {
+        const { error, data } = addBeerLogic(beers, text);
         if(!text) {
             Alert.alert(isGerman ? 'Fehler' : 'Error', isGerman ? 'Bitte schreiben Bier Produkten':'Please enter a beer item', {text: 'Ok'});
         } else {
-            setBeers(prevItems => {
-                return [{id: Date.now(), text}, ...prevItems];
-            });
+            //setBeers(prevItems => {
+            //    return [{id: Date.now(), text}, ...prevItems];
+            //});
+            setBeers(data);
         }
     };
 
 
     const deleteBeer = (id) => {
-        setBeers(prevItems => {
-            return prevItems.filter(beer => beer.id != id);
-        });
+        const { data } = deleteBeerLogic(beers, id);
+        //setBeers(prevItems => {
+        //    return prevItems.filter(beer => beer.id != id);
+        //});
+        setBeers(data);
     };
 
 

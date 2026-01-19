@@ -25,6 +25,7 @@ const AddBeerItem = ({addBeer}) => {
         <TouchableOpacity
         style={styles.button}
         onPress={() => addBeer(text)}
+        testID="add-beer-button"
         >
         <Text style={styles.buttonText}>
             <Icon

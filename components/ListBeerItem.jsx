@@ -21,6 +21,7 @@ const ListBeerItem = ({beer, deleteBeer, updateBeer}) => {
         size={20}
         color="firebrick"
         onPress={() => deleteBeer(beer.id)}
+        testID={`delete-btn-${beer.id}`}
             />
       </View>
       </View>
