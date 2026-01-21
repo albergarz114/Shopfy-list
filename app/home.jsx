@@ -17,7 +17,7 @@ const Index = () => {
   // Networking: Fetch Recipes from Spoonacular
   const fetchRecipes = async () => {
     const apiKey = process.env.EXPO_PUBLIC_API_KEY;
-    const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&query=chicken&number=30&intolerances=egg,dairy`;
+    const url = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&query=chicken&number=10&intolerances=egg,dairy`;
 
     try {
       const response = await fetch(url);

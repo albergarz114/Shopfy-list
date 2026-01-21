@@ -49,3 +49,5 @@ npm test
 1. I did the toggle (light mode and dark mode)
 2. I did the toggle languages English and German
 3. I performed tests too. 
+4. Implemented Unit & UI Tests
+5. Implemented AsyncStorage in the app

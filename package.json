@@ -9,11 +9,11 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    
     "test": "node --expose-gc ./node_modules/.bin/jest --runInBand --logHeapUsage"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
+    "@react-native-async-storage/async-storage": "2.2.0",
     "@react-navigation/bottom-tabs": "^7.4.0",
     "@react-navigation/elements": "^2.6.3",
     "@react-navigation/native": "^7.1.8",
@@ -56,12 +56,13 @@
     "typescript": "~5.9.2"
   },
   "jest": {
-  "preset": "jest-expo",
-  "setupFilesAfterEnv": ["./jest.setup.js"],
-  "transformIgnorePatterns": [
-    "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
-  ]
-  
-},
+    "preset": "jest-expo",
+    "setupFilesAfterEnv": [
+      "./jest.setup.js"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
+    ]
+  },
   "private": true
 }

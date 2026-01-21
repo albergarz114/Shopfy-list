@@ -1,3 +1,4 @@
+
 // Pure logic functions - no React, no UI!
 export const addBeerLogic = (currentBeers, text) => { // Changed 'newText' to 'text'
     if (!text || text.trim() === '') {
@@ -6,6 +7,8 @@ export const addBeerLogic = (currentBeers, text) => { // Changed 'newText' to 't
     const newData = [{ id: Date.now(), text }, ...currentBeers];
     return { error: false, data: newData };
 };
+
+
 
 export const deleteBeerLogic = (currentBeers, id) => {
     const data = currentBeers.filter(beer => beer.id !== id);

@@ -1,11 +1,13 @@
 import { View, Text, StyleSheet, Alert, FlatList, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'expo-router';
 import AddBeerItem from '../../components/AddBeerItem';
 import ListBeerItem from '../../components/ListBeerItem';
 import GlobalToolbar from "@/components/GlobalToolbar";
 import { useSettings } from '@/context/SettingsContext';
 import { addBeerLogic, deleteBeerLogic } from '../../utils/beerLogic';
+import { savedBeers, loadBeers } from '../../utils/storage';
+
 const BeerScreen = () => {
 
     const router = useRouter();
@@ -20,26 +22,41 @@ const BeerScreen = () => {
         {id: 7, text: "Dunkle HefeWeißbier"},
     ]); 
 
+    useEffect (() => {
+        const fetchBeers = async () => {
+            const savedData = await loadBeers();
+            if (savedData) {
+                setBeers(savedData);
+            }
+        };
+        fetchBeers();
+    }, []);
 
-    const addBeer = (text) => {
+
+
+    const addBeer = async (text) => {
         const { error, data } = addBeerLogic(beers, text);
-        if(!text) {
-            Alert.alert(isGerman ? 'Fehler' : 'Error', isGerman ? 'Bitte schreiben Bier Produkten':'Please enter a beer item', {text: 'Ok'});
+        
+        if(!error) {
+            setBeers(data);
+            await savedBeers(data);
         } else {
             //setBeers(prevItems => {
             //    return [{id: Date.now(), text}, ...prevItems];
             //});
-            setBeers(data);
+            Alert.alert(isGerman ? 'Fehler' : 'Error', isGerman ? 'Bitte schreiben Bier Produkten':'Please enter a beer item', {text: 'Ok'});
+            
         }
     };
 
 
-    const deleteBeer = (id) => {
+    const deleteBeer = async (id) => {
         const { data } = deleteBeerLogic(beers, id);
         //setBeers(prevItems => {
         //    return prevItems.filter(beer => beer.id != id);
         //});
         setBeers(data);
+        await savedBeers(data);
     };
 
 

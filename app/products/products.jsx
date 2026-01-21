@@ -1,12 +1,12 @@
 import { View, Text, TouchableOpacity, StyleSheet, FlatList, Alert } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import HeaderProduct from '../../components/HeaderProduct';
 import AddProductItem from '../../components/AddProductItem';
 import ListProductItem from '../../components/ListProductItem';
 import { useRouter } from 'expo-router';
 import { useSettings } from '@/context/SettingsContext';
 import GlobalToolbar from "@/components/GlobalToolbar";
-
+//import { savedProducts, loadProducts } from '../../utils/storage';
 
 
 const ProductScreen = () => {
@@ -22,6 +22,16 @@ const ProductScreen = () => {
         {id: 6, text: "Pullover"},
         {id: 7, text: "Truck"},
     ]);
+
+    //useEffect (() => {
+    //    const fetchProducts = async () => {
+    //        const savedData = await loadProducts();
+    //        if (savedData) {
+    //            setProducts(savedData);
+    //        }
+    //    };
+    //    fetchProducts();
+    //}, []);
 
 
     // Add
@@ -41,6 +51,7 @@ const ProductScreen = () => {
         setProducts(prevProducts => {
             return prevProducts.filter(product => product.id != id);
         });
+
     };
 
 

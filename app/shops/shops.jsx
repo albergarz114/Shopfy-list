@@ -1,11 +1,14 @@
 import { View, Text, StyleSheet, FlatList, Alert} from 'react-native'
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import HeaderShop from '../../components/HeaderShop';
 import AddShopItem from '../../components/AddShopItem';
 import ListShopItem from '../../components/ListShopItem';
 import GlobalToolbar from "@/components/GlobalToolbar";
 import { useSettings } from '@/context/SettingsContext';
 import { useRouter } from 'expo-router';
+import { addShopLogic, deleteShopLogic, updateShopLogic } from '../../utils/shopLogic';
+import { savedShops, loadShops } from '../../utils/storage';
+
 
 const ShopScreen = () => {
 
@@ -22,27 +25,50 @@ const ShopScreen = () => {
         {id: 7, text: "Accessories"},
   ]);
 
+  useEffect(() => {
+    const fetchShops = async () => {
+      const savedData = await loadShops();
+      if (savedData) {
+        setShops(savedData);
+      } 
+    };
+    fetchShops();
+  }, []);
 
-  const addShop = (text) => {
-    if(!text) {
-      Alert.alert('Error', 'Please enter a shop item', {text: 'Ok'});
+
+  const addShop = async (text) => {
+    const { error, data } = addShopLogic(shops, text);
+    if(!error) {
+      setShops(data);
+      await savedShops(data);
     } else {
-      setShops(prevShops => {
-        return [{id: Date.now(), text}, ...prevShops];
-      });
+      //setShops(prevShops => {
+      //  return [{id: Date.now(), text}, ...prevShops];
+      //});
+      Alert.alert('Error', 'Please enter a shop item', {text: 'Ok'});
+      
     }
   };
 
   
-  const deleteShop = (id) => {
-    setShops(prevShops => {
-      return prevShops.filter(shop => shop.id != id);
-    });
+  const deleteShop = async (id) => {
+    const { data } = deleteShopLogic(shops, id);
+    //setShops(prevShops => {
+    //  return prevShops.filter(shop => shop.id != id);
+    //});
+    setShops(data);
+    await savedShops(data);
   };
 
 
-  const updateShop = (id, newText) => {
-    setShops(prevShops => prevShops.map(shop => shop.id === id ? {...shop, text: newText} : shop))
+  const updateShop = async (id, newText) => {
+    const { error, data } = updateShopLogic(shops, id, newText);
+    //setShops(prevShops => prevShops.map(shop => shop.id === id ? {...shop, text: newText} : shop))
+
+    if(!error) {
+      setShops(data);
+      await savedShops(data);
+    }
   };
 
   
