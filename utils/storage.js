@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const NOTES_KEY = '@notes_data';
 const BEERS_KEY = '@beers_data';
 const SHOPS_KEY = '@shops_data';
+const PRODUCTS_KEY = '@products_data';
 
 export const savedNotes = async (notes) => {
 
@@ -64,6 +65,28 @@ export const loadShops = async () => {
         return jsonValue != null ? JSON.parse(jsonValue) : null;
     } catch (e) {
         console.error("Error loading shops", e);
+        return null;
+    }
+};
+
+export const savedProducts = async (products) => {
+
+    try {
+        const jsonValue = JSON.stringify(products);
+        await AsyncStorage.setItem(PRODUCTS_KEY, jsonValue);
+    } catch (e) {
+        console.error('Error saving products', e);
+    }
+};
+
+
+export const loadProducts = async () => {
+
+    try {
+        const jsonValue = await AsyncStorage.getItem(PRODUCTS_KEY);
+        return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (e) {
+        console.error('Error loading products', e);
         return null;
     }
 };

@@ -6,7 +6,8 @@ import ListProductItem from '../../components/ListProductItem';
 import { useRouter } from 'expo-router';
 import { useSettings } from '@/context/SettingsContext';
 import GlobalToolbar from "@/components/GlobalToolbar";
-//import { savedProducts, loadProducts } from '../../utils/storage';
+import { addProductLogic, deleteProductLogic, updateProductLogic } from '../../utils/productLogic';
+import { savedProducts, loadProducts } from '../../utils/storage';
 
 
 const ProductScreen = () => {
@@ -23,41 +24,51 @@ const ProductScreen = () => {
         {id: 7, text: "Truck"},
     ]);
 
-    //useEffect (() => {
-    //    const fetchProducts = async () => {
-    //        const savedData = await loadProducts();
-    //        if (savedData) {
-    //            setProducts(savedData);
-    //        }
-    //    };
-    //    fetchProducts();
-    //}, []);
+    useEffect (() => {
+        const fetchProducts = async () => {
+            const savedData = await loadProducts();
+            if (savedData) {
+                setProducts(savedData);
+            }
+        };
+        fetchProducts();
+    }, []);
 
 
     // Add
-    const addProduct = (text) => {
-        if(!text) {
-            Alert.alert(isGerman ? 'Fehler':'Error', isGerman ? 'Bitte Schreiben Sie Produkten':'Please enter a product item', {text: 'Ok'});
+    const addProduct = async (text) => {
+        const { error, data } = addProductLogic(products, text);
+        if(!error) {
+            setProducts(data);
+            await savedProducts(data);
         } else {
-            setProducts(prevProducts => {
-                return [{id: Date.now(), text}, ...prevProducts];
-            });
+            //setProducts(prevProducts => {
+            //    return [{id: Date.now(), text}, ...prevProducts];
+            //});
+            Alert.alert(isGerman ? 'Fehler':'Error', isGerman ? 'Bitte Schreiben Sie Produkten':'Please enter a product item', {text: 'Ok'});
         }
     };
 
 
     // Delete
-    const deleteProduct = (id) => {
-        setProducts(prevProducts => {
-            return prevProducts.filter(product => product.id != id);
-        });
-
+    const deleteProduct = async (id) => {
+        const { data } = deleteProductLogic(products, id);
+        //setProducts(prevProducts => {
+        //    return prevProducts.filter(product => product.id != id);
+        //});
+        setProducts(data);
+        await savedProducts(data);
     };
 
 
     // Update
-    const updateProduct = (id, newText) => {
-        setProducts(prevProducts => prevProducts.map(product => product.id === id ? {...product, text: newText} : product))
+    const updateProduct = async (id, newText) => {
+        const { error, data } = updateProductLogic(products, id, newText);
+        //setProducts(prevProducts => prevProducts.map(product => product.id === id ? {...product, text: newText} : product))
+        if(!error){
+            setProducts(data);
+            await savedProducts(data);
+        }
     };
 
   return (

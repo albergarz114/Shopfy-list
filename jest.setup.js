@@ -1,5 +1,7 @@
 import '@testing-library/jest-native/extend-expect';
+import mockAsyncStorage from '@react-native-async-storage/async-storage/jest/async-storage-mock';
 
+jest.mock('@react-native-async-storage/async-storage', () => mockAsyncStorage);
 // 1. The "Memory Saver" - Prevents loading heavy images
 jest.mock('react-native/Libraries/Image/RelativeImageStub', () => 'RelativeImageStub');
 
