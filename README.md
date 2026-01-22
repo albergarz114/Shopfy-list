@@ -51,3 +51,5 @@ npm test
 3. I performed tests too. 
 4. Implemented Unit & UI Tests
 5. Implemented AsyncStorage in the app
+6. Implemented Gradient Colors
+7. Implemented Button Effects

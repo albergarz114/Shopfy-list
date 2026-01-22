@@ -68,9 +68,18 @@ const ListShopItem = ({shop, deleteShop, updateShop}) => {
 const styles = StyleSheet.create({
   shopItem: {
     padding: 15,
-    height: 50,
-    borderBottomWidth: 1,
-    alignSelf: 'stretch',
+    marginVertical: 6,      // Spacing between cards
+    marginHorizontal: 16,   // Spacing from screen edges
+    borderRadius: 12,       // Rounded corners
+    flexDirection: 'row',
+    alignItems: 'center',
+    // iOS Shadow
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    // Android Shadow
+    elevation: 3,
   },
 
   shopItemView: {
@@ -81,7 +90,8 @@ const styles = StyleSheet.create({
   },
 
   shopItemText: {
-    fontSize: 18,
+    fontSize: 17,
+    fontWeight: '500',
     flex: 1,
   },
 
@@ -94,7 +104,7 @@ const styles = StyleSheet.create({
 
   icons: {
     flexDirection: 'row',
-    gap: 15,
+    gap: 12,
   }
 
 });

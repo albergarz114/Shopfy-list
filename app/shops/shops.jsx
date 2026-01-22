@@ -8,7 +8,8 @@ import { useSettings } from '@/context/SettingsContext';
 import { useRouter } from 'expo-router';
 import { addShopLogic, deleteShopLogic, updateShopLogic } from '../../utils/shopLogic';
 import { savedShops, loadShops } from '../../utils/storage';
-
+import { triggerLayoutAnimation } from '../../utils/animations';
+import AppBackground from '../../components/AppBackground';
 
 const ShopScreen = () => {
 
@@ -39,6 +40,7 @@ const ShopScreen = () => {
   const addShop = async (text) => {
     const { error, data } = addShopLogic(shops, text);
     if(!error) {
+      triggerLayoutAnimation();
       setShops(data);
       await savedShops(data);
     } else {
@@ -56,6 +58,7 @@ const ShopScreen = () => {
     //setShops(prevShops => {
     //  return prevShops.filter(shop => shop.id != id);
     //});
+    triggerLayoutAnimation();
     setShops(data);
     await savedShops(data);
   };
@@ -66,6 +69,7 @@ const ShopScreen = () => {
     //setShops(prevShops => prevShops.map(shop => shop.id === id ? {...shop, text: newText} : shop))
 
     if(!error) {
+      triggerLayoutAnimation();
       setShops(data);
       await savedShops(data);
     }
@@ -73,7 +77,8 @@ const ShopScreen = () => {
 
   
   return (
-    <View style={[styles.container, {backgroundColor: isDarkMode ? 'black' : '#f8f9fa'}]}>
+    <AppBackground>
+    <View style={styles.container}>
       <GlobalToolbar title={isGerman ? 'Herzlich Unsere Shop': 'Welcome to Our Shop'}/>
       <AddShopItem addShop={addShop}/>
       <FlatList
@@ -83,6 +88,7 @@ const ShopScreen = () => {
       }
       />
     </View>
+    </AppBackground>
   )
 };
 
@@ -90,10 +96,11 @@ const ShopScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1, 
-    backgroundColor: '#f8f9fa',
+    backgroundColor: 'tranparent',
     paddingBottom: 60,
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
   }
 });
 

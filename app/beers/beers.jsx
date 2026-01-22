@@ -7,6 +7,8 @@ import GlobalToolbar from "@/components/GlobalToolbar";
 import { useSettings } from '@/context/SettingsContext';
 import { addBeerLogic, deleteBeerLogic } from '../../utils/beerLogic';
 import { savedBeers, loadBeers } from '../../utils/storage';
+import { triggerLayoutAnimation } from '../../utils/animations';
+import AppBackground from '../../components/AppBackground';
 
 const BeerScreen = () => {
 
@@ -40,6 +42,7 @@ const BeerScreen = () => {
         if(!error) {
             setBeers(data);
             await savedBeers(data);
+            triggerLayoutAnimation();
         } else {
             //setBeers(prevItems => {
             //    return [{id: Date.now(), text}, ...prevItems];
@@ -57,6 +60,7 @@ const BeerScreen = () => {
         //});
         setBeers(data);
         await savedBeers(data);
+        triggerLayoutAnimation();
     };
 
 
@@ -66,7 +70,8 @@ const BeerScreen = () => {
 
 
   return (
-    <View style={[styles.container, { backgroundColor: isDarkMode ? '#121212':'#f8f9fa'}]}>
+    <AppBackground>
+    <View style={styles.container}>
       <GlobalToolbar title={isGerman ? 'Bier Menu': 'Beer Menu'}/>
       <AddBeerItem addBeer={addBeer}/>
       <FlatList
@@ -76,6 +81,7 @@ const BeerScreen = () => {
     }
       />
     </View>
+    </AppBackground>
   )
 }
 
@@ -86,7 +92,8 @@ const styles = StyleSheet.create({
         color: 'white',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#f8f9fa',
+        backgroundColor: 'transparent',
+        width: '100%',
     },
 
     list: {

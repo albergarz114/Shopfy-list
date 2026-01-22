@@ -8,7 +8,8 @@ import { useSettings } from '@/context/SettingsContext';
 import GlobalToolbar from "@/components/GlobalToolbar";
 import { addProductLogic, deleteProductLogic, updateProductLogic } from '../../utils/productLogic';
 import { savedProducts, loadProducts } from '../../utils/storage';
-
+import { triggerLayoutAnimation } from '../../utils/animations';
+import AppBackground from '../../components/AppBackground';
 
 const ProductScreen = () => {
 
@@ -39,6 +40,7 @@ const ProductScreen = () => {
     const addProduct = async (text) => {
         const { error, data } = addProductLogic(products, text);
         if(!error) {
+            triggerLayoutAnimation();
             setProducts(data);
             await savedProducts(data);
         } else {
@@ -58,6 +60,7 @@ const ProductScreen = () => {
         //});
         setProducts(data);
         await savedProducts(data);
+        triggerLayoutAnimation();
     };
 
 
@@ -68,11 +71,13 @@ const ProductScreen = () => {
         if(!error){
             setProducts(data);
             await savedProducts(data);
+            triggerLayoutAnimation();
         }
     };
 
   return (
-    <View style={[styles.container, {backgroundColor: isDarkMode ? '#121212' : '#f8f9fa'}]}>
+    <AppBackground>
+    <View style={styles.container}>
       <GlobalToolbar title={isGerman ? 'Produkten Hinzufügen' : 'Add Product'}/>
       <AddProductItem addProduct={addProduct}/>
       <FlatList
@@ -82,7 +87,7 @@ const ProductScreen = () => {
     }
     />
     </View>
-    
+    </AppBackground>
   )
 }
 
@@ -95,7 +100,8 @@ const styles = StyleSheet.create({
         paddingBottom: 70,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#f8f9fa',
+        backgroundColor: 'transparent',
+        width: '100%',
     },
 
     list: {

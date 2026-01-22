@@ -9,6 +9,8 @@ import { useSettings } from '@/context/SettingsContext';
 import GlobalToolbar from "@/components/GlobalToolbar";
 import { addNoteLogic, deleteNoteLogic, updateNoteLogic } from '../../utils/noteLogic';
 import { savedNotes, loadNotes } from '../../utils/storage';
+import { triggerLayoutAnimation } from '../../utils/animations';
+import AppBackground from '../../components/AppBackground';
 
 const NotesScreen = () => {
 
@@ -37,6 +39,7 @@ const NotesScreen = () => {
         if(!error) {
             setNoteItems(data);
             await savedNotes(data);
+            triggerLayoutAnimation();
         } else {
             //setNoteItems(prevNotes => {
             //return [{id: Date.now(), text}, ...prevNotes];
@@ -54,6 +57,7 @@ const NotesScreen = () => {
         //});
         setNoteItems(data);
         await savedNotes(data);
+        triggerLayoutAnimation();
     }
 
     // Parameters(Unit tests) have to be in order the same as NoteScreen
@@ -68,11 +72,13 @@ const NotesScreen = () => {
         if (!error) {
             setNoteItems(data);
             await savedNotes(data);
+            triggerLayoutAnimation();
         }
     };
 
     return (
-        <View style={[styles.container, {backgroundColor: isDarkMode ? '#121212' : '#f8f9fa'}]}>
+        <AppBackground>
+        <View style={styles.container}>
         <GlobalToolbar title={isGerman ? 'Noten' : 'Notes Menu'}/>
         <AddNoteItem addNote={addNote}/>
         <FlatList
@@ -82,6 +88,7 @@ const NotesScreen = () => {
         style={styles.list}
         />
         </View>
+        </AppBackground>
     )
 };
 
@@ -94,7 +101,8 @@ const styles = StyleSheet.create({
         paddingBottom: 70,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#f8f9fa',
+        backgroundColor: 'transparent',
+        width: '100%',
     },
 
     list: {
