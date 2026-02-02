@@ -37,12 +37,9 @@ const WelcomeScreen = () => {
 
           {/* 3. Golden button to match the image's glow */}
           <TouchableOpacity 
-            style={styles.button} 
+            style={styles.invisibleButton} 
             onPress={() => router.replace('/home')}
           >
-            <Text style={styles.buttonText}>
-              {isGerman ? 'Loslegen' : 'Get Started'}
-            </Text>
           </TouchableOpacity>
         </View>
       </ImageBackground>
@@ -89,18 +86,15 @@ const styles = StyleSheet.create({
     lineHeight: 26, 
     color: '#eee' 
   },
-  button: { 
-    backgroundColor: '#FFD700', // Gold/Yellow color from the banana glow
-    padding: 20, 
-    borderRadius: 30, // Rounder buttons look more modern
-    alignItems: 'center',
-    marginBottom: 20,
-    // Add a little shadow to the button
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4.65,
-    elevation: 8,
+  
+  invisibleButton: {
+    position: 'absolute',
+    bottom: 80,
+    alignSelf: 'center',
+    width: width * 0.8,
+    height: 60,
+    backgroundColor: 'transparent', // TEMPORARY: Keep this red so you can see it!
+    zIndex: 10,
   },
   buttonText: { 
     color: '#000', 
